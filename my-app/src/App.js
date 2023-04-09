@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import React, {Component} from 'react';
 import styled from 'styled-components';
 
 import './App.css';
@@ -77,9 +77,26 @@ const Wrapper = styled.div`
     margin: 80px auto 0 auto;
 `;
 
+const DynamicGriting = (props) => {
+  return (
+    <div className={'mb-3 p-3 border border-' + props.color}>
+      {
+        React.Children.map(props.children, child => {
+          return React.cloneElement(child, {className: 'shadow p-3 m-3 border rounded'})
+        })
+      }
+    </div>
+  )
+}
+
 function App() {
   return (
     <Wrapper>
+      <DynamicGriting color={'primary'}>
+        <h2>This weel was hard</h2>
+        <h2>Hello World</h2>
+      </DynamicGriting>
+
       <WhoAmI name='John' surname="Smith" link="facebook.com"/>
       <WhoAmI name='Jamse' surname="Smith" link="facebook.com"/>
     </Wrapper>
