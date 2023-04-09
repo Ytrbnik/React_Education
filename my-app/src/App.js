@@ -77,7 +77,7 @@ const Wrapper = styled.div`
     margin: 80px auto 0 auto;
 `;
 
-const DynamicGriting = (props) => {
+const DynamicGreating = (props) => {
   return (
     <div className={'mb-3 p-3 border border-' + props.color}>
       {
@@ -89,13 +89,24 @@ const DynamicGriting = (props) => {
   )
 }
 
+const HelloGreatings = () => {
+  return (
+    <div style={{'width': '600px', 'margin': '0 auto'}}>
+      <DynamicGreating color={'primary'}>
+        <h2>Hello World</h2>
+      </DynamicGreating>
+    </div>
+  )
+}
+
 function App() {
   return (
     <Wrapper>
-      <DynamicGriting color={'primary'}>
+      <HelloGreatings/>
+      <DynamicGreating color={'primary'}>
         <h2>This weel was hard</h2>
         <h2>Hello World</h2>
-      </DynamicGriting>
+      </DynamicGreating>
 
       <WhoAmI name='John' surname="Smith" link="facebook.com"/>
       <WhoAmI name='Jamse' surname="Smith" link="facebook.com"/>
