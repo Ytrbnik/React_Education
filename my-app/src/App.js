@@ -1,4 +1,4 @@
-import {Component, useState} from 'react';
+import {Component, useState, useEffect} from 'react';
 import {Container} from 'react-bootstrap';
 import './App.css';
 
@@ -53,6 +53,21 @@ class Slider extends Component {
     const [slide, setSlide] = useState(0);
     const [autoplay, setAutoplay] = useState(false);
 
+    function logging() {
+        console.log('log!');
+    }
+
+    useEffect(() => {
+        document.title = `Slide: ${slide}`;
+
+        window.addEventListener('click', logging);
+
+        return () => {
+            window.removeEventListener('click', logging);
+        }
+
+    }, [slide]);
+
     function changeSlideP(i) {
         setSlide(slide => slide + 1);
     }
@@ -88,8 +103,14 @@ class Slider extends Component {
 
 
 function App() {
+    const [slider, setSlider] = useState(true);
+
   return (
-        <Slider/>
+        <>
+            <button onClick={() => setSlider(false)}>Click</button>
+            {slider ? <Slider/> : null}
+        </>
+
   );
 }
 
