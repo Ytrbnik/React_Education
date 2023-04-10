@@ -1,151 +1,95 @@
-import React, {Component} from 'react';
-import styled from 'styled-components';
-
+import {Component, useState} from 'react';
+import {Container} from 'react-bootstrap';
 import './App.css';
 
-const EmpItem = styled.div`
-  padding: 20px;
-  margin-bottom: 15px;
-  bordr-radius: 5px;
-  box-shadow: 5px 5px 15px rgba(0,0,0, .2);
-  a {
-    display: block;
-    margin: 10px 0 10px 0;
-    color: ${props => props.active ? 'orange' : 'black'};
-  }
-  input {
-    display: block;
-    margin-top: 10px;
-  }
-`;
+/*
+class Slider extends Component {
 
-const Header = styled.h2`
-  font-size: 22px;
-`;
-
-export const Button = styled.button`
-  display: block;
-  padding: 5px 15px;
-  background-color: gold;
-  border: 1px solid rgba(0,0,0, .2);
-  box-shadow: 5px 5px 10px rgba(0,0,0, .2);
-`;
-
-class WhoAmI extends Component  {
-  constructor(props) {
-    super(props);
-    this.state = {
-      years: 25,
-      text: '+++',
-      position: ''
+    constructor(props) {
+        super(props);
+        this.state = {
+            autoplay: false,
+            slide: 0
+        }
     }
-  }
 
-  nextYear = () => {
-    console.log('+++');
-    this.setState(state  => ({
-      years: state.years + 1
-    }))
-  }
+    changeSlide = (i) => {
+        this.setState(({slide}) => ({
+            slide: slide + i
+        }))
+    }
 
-  commitInputChanges = (e, color) => {
-    console.log(color);
-    this.setState({
-      position: e.target.value
-    })
-  }
+    toggleAutoplay = () => {
+        this.setState(({autoplay}) => ({
+            autoplay: !autoplay
+        }))
+    }
 
-  render() {
-    const {name, surname, link} = this.props;
-    const {years, text, position} =this.state;
-    return (
-      <EmpItem active>
-        <Button onClick={this.nextYear}>{text}</Button>
-          <Header>My name is {name}, surname - {surname}, age - {years}. Position : {position}</Header>
-          <a href={link}>My profile</a>
-          <form>
-            <span>Введите должость</span>
-            <input type="text" onChange={(e) => this.commitInputChanges(e, 'some color')}/>
-          </form>
-      </EmpItem>
-    )
-  }
+    render() {
+        return (
+            <Container>
+                <div className="slider w-50 m-auto">
+                    <img className="d-block w-100" src="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg" alt="slide" />
+                    <div className="text-center mt-5">Active slide {this.state.slide} <br/> {this.state.autoplay ? 'auto' : null}</div>
+                    <div className="buttons mt-3">
+                        <button
+                            className="btn btn-primary me-2"
+                            onClick={() => this.changeSlide(-1)}>-1</button>
+                        <button
+                            className="btn btn-primary me-2"
+                            onClick={() => this.changeSlide(1)}>+1</button>
+                        <button
+                            className="btn btn-primary me-2"
+                            onClick={this.toggleAutoplay}>toggle autoplay</button>
+                    </div>
+                </div>
+            </Container>
+        )
+    }
 }
+*/
 
-const Wrapper = styled.div`
-    width: 600px;
-    margin: 80px auto 0 auto;
-`;
+ const Slider = (props) => {
+    const [slide, setSlide] = useState(0);
+    const [autoplay, setAutoplay] = useState(false);
 
-const DynamicGreating = (props) => {
-  return (
-    <div className={'mb-3 p-3 border border-' + props.color}>
-      {
-        React.Children.map(props.children, child => {
-          return React.cloneElement(child, {className: 'shadow p-3 m-3 border rounded'})
-        })
-      }
-    </div>
-  )
-}
+    function changeSlideP(i) {
+        setSlide(slide => slide + 1);
+    }
 
-const HelloGreatings = () => {
-  return (
-    <div style={{'width': '600px', 'margin': '0 auto'}}>
-      <DynamicGreating color={'primary'}>
-        <h2>Hello World</h2>
-      </DynamicGreating>
-    </div>
-  )
-}
+    function changeSlideM(i) {
+        setSlide(slide => slide - 1);
+    }
 
-const Message = (props) => {
-  return (
-    <h2>The counter is {props.counter}</h2>
-  )
-}
+    function toggleAutoplay() {
+        setAutoplay(autoplay => !autoplay);
+    }
 
-class Counter extends Component {
-  state = {
-    counter: 0
-  }
+     return (
+         <Container>
+             <div className="slider w-50 m-auto">
+                 <img className="d-block w-100" src="https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg" alt="slide" />
+                 <div className="text-center mt-5">Active slide {slide} <br/>{autoplay ? 'auto' : null} </div>
+                 <div className="buttons mt-3">
+                     <button
+                         className="btn btn-primary me-2"
+                         onClick={() => changeSlideM(-1)}>-1</button>
+                     <button
+                         className="btn btn-primary me-2"
+                         onClick={() => changeSlideP(1)}>+1</button>
+                     <button
+                         className="btn btn-primary me-2"
+                         onClick={toggleAutoplay}>toggle autoplay</button>
+                 </div>
+             </div>
+         </Container>
+     )
+ }
 
-  changeCounter = () => {
-    this.setState(({counter}) => ({
-      counter: counter + 1
-    }))
-  }
-
-  render() {
-    return (
-      <>
-        <button
-          className='btn btn-primary'
-          onClick={this.changeCounter}>
-          Click me!
-        </button>
-        {this.props.render(this.state.counter)}
-      </>
-    )
-  }
-}
 
 function App() {
   return (
-    <Wrapper>
-
-      <Counter render={counter => {
-        <Message counter={counter}/>
-      }}/>
-      <HelloGreatings/>
-      <DynamicGreating color={'primary'}>
-        <h2>This weel was hard</h2>
-        <h2>Hello World</h2>
-      </DynamicGreating>
-
-      <WhoAmI name='John' surname="Smith" link="facebook.com"/>
-      <WhoAmI name='Jamse' surname="Smith" link="facebook.com"/>
-    </Wrapper>
+        <Slider/>
   );
 }
 
